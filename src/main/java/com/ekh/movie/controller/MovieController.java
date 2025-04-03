@@ -20,9 +20,19 @@ public class MovieController {
 	private final MovieService movieService;
 	
 	
-	@GetMapping("/movie/search/{qurey}")
-	public void save(@PathVariable(value = "qurey") String qurey) throws JsonProcessingException {
-		movieService.save(qurey);
+	@GetMapping("/movie/search/{query}")
+	public void save(@PathVariable(value = "query") String query) throws JsonProcessingException {
+		movieService.save(query);
+	}
+	
+	@GetMapping("/movie/search/{query}/{year}")
+	public MovieDTO moiveDate(@PathVariable(value = "query") String query,@PathVariable(value = "year") String year) throws JsonProcessingException {
+		return movieService.moiveDate(query,year);
+	}
+	
+	@GetMapping("/movie/find/query")
+	public ResultDTO findMovie(@PathVariable(value = "query")String query) throws JsonProcessingException {
+		return movieService.findMovie(query);
 	}
 
 }

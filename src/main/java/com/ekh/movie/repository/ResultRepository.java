@@ -7,4 +7,7 @@ import com.ekh.movie.openapi.DTO.MovieDTO;
 
 public interface ResultRepository extends JpaRepository<ResultDAO, Long>{
 
+	
+	void findByName(String query);
+
 }

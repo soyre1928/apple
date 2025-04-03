@@ -1,8 +1,6 @@
 package com.ekh.movie.openapi.DTO;
 
-import java.time.LocalDateTime;
 import java.util.List;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
