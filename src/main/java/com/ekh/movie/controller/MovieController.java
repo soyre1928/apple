@@ -36,7 +36,7 @@ public class MovieController {
 	
 	@GetMapping("/movie/find/{query}")
 	public List<ResultDAO> findMovie(@PathVariable(value = "query")String query) throws JsonProcessingException {
-		return repository.findByTitleContaining(query);
+		return movieService.findMovie(query);
 	}
 
 }
