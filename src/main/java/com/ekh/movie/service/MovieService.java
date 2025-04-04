@@ -4,7 +4,8 @@ package com.ekh.movie.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -54,8 +55,8 @@ public class MovieService {
         if (movieDTO != null && movieDTO.getResults() != null) {
             List<ResultDAO> resultDAOs = movieDTO.getResults().stream().map(ResultDAO::fromDTO).collect(Collectors.toList());
             resultRepository.saveAll(resultDAOs);
-        }       
-	}
+        }      
+	} 
 
 
 	public MovieDTO moiveDate(String query, String year) {
@@ -81,9 +82,14 @@ public class MovieService {
 	}
 
 
-	public ResultDTO findMovie(String query) {
-		resultRepository.findByName(query);
-		return null;
+	public List<ResultDAO> findMovie(String query) {
+		
+		List<ResultDAO> results = resultRepository.findByTitleContaining(query);
+		
+//		System.out.println("검색 결과 개수: " + results.size());
+//		System.out.println("검색어: " + query);
+		return results;
+		
 	}
-	
+
 }
