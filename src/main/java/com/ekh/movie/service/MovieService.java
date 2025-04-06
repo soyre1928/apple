@@ -86,9 +86,33 @@ public class MovieService {
 		
 		List<ResultDAO> results = resultRepository.findByTitleContaining(query);
 		
-//		System.out.println("검색 결과 개수: " + results.size());
-//		System.out.println("검색어: " + query);
-		return results;
+		if(!results.isEmpty()) {
+			return results;
+		}
+		RestTemplate restTemplate = new RestTemplate();
+
+		String urlQuery = url + query;
+        // 헤더 생성
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + key);
+        headers.set("accept", "application/json");
+
+        HttpEntity<MovieDTO> entity = new HttpEntity<>(headers);
+
+        ResponseEntity<MovieDTO> response = restTemplate.exchange(urlQuery,HttpMethod.GET,entity,MovieDTO.class);
+		
+        MovieDTO movieDTO = response.getBody();
+        
+        List<ResultDAO> results2 = movieDTO.getResults().stream()
+        	    .map(resultDTO -> {
+        	        ResultDAO resultDAO = new ResultDAO();
+        	        resultDAO.setId(resultDTO.getId());
+        	        resultDAO.setTitle(resultDTO.getTitle());
+        	        return resultDAO;
+        	    }).collect(Collectors.toList());
+        	resultRepository.saveAll(results2);
+
+        	return results2;
 		
 	}
 

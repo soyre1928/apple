@@ -22,7 +22,6 @@ import lombok.RequiredArgsConstructor;
 public class MovieController {
 	
 	private final MovieService movieService;
-	private final ResultRepository repository;
 	
 	@GetMapping("/movie/search/{query}")
 	public void save(@PathVariable(value = "query") String query) throws JsonProcessingException {
